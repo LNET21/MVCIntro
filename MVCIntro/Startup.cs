@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MVCIntro.Data;
 
 namespace MVCIntro
 {
@@ -24,6 +26,9 @@ namespace MVCIntro
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<MVCIntroContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MVCIntroContext")));
 
         }
 
@@ -51,7 +56,7 @@ namespace MVCIntro
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Employees}/{action=Index}/{id?}");
             });
         }
     }
