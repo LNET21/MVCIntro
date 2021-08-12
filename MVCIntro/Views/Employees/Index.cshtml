@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<IndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +6,16 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<form asp-action="Search" method="get">
+    <div class="input-group mb-3">
+        <input type="text" name="name" class="form-control" placeholder="Search on name" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+        </div>
+    </div>
+</form>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -18,36 +25,29 @@
             <th>
                 @Html.DisplayNameFor(model => model.Salary)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th></th>
+            <th><a class="btn btn-primary float-lg-right" asp-action="Create">Create New</a></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-               @item.Name
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@if (Model.Count() == 0)
+{
+    <p class="text-center">No Result</p>
+}
